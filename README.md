@@ -24,6 +24,30 @@ This is a starter template for building a SaaS application using **Next.js** wit
 - **Payments**: [Stripe](https://stripe.com/)
 - **UI Library**: [shadcn/ui](https://ui.shadcn.com/)
 
+## Database Schema
+
+### Stripe Integration Fields
+
+The `teams` table includes the following Stripe-related fields for subscription management:
+
+```typescript
+// Required Stripe fields in teams table
+stripeCustomerId: text('stripe_customer_id').unique(),        // Links team to Stripe customer
+stripeSubscriptionId: text('stripe_subscription_id').unique(), // Current active subscription ID
+stripeProductId: text('stripe_product_id'),                   // Subscribed product ID
+planName: varchar('plan_name', { length: 50 }),               // Human-readable plan name
+subscriptionStatus: varchar('subscription_status', { length: 20 }), // Subscription status
+```
+
+**Field Purposes:**
+- **`stripeCustomerId`**: Links your team/organization to a Stripe customer for billing
+- **`stripeSubscriptionId`**: Tracks the current active subscription
+- **`stripeProductId`**: Identifies which product/plan the team is subscribed to
+- **`planName`**: User-friendly display name (e.g., "Base", "Plus")
+- **`subscriptionStatus`**: Current status (`active`, `trialing`, `canceled`, `unpaid`, etc.)
+
+For detailed Stripe implementation documentation, see [STRIPE_README.md](./STRIPE_README.md).
+
 ## Getting Started
 
 ```bash
